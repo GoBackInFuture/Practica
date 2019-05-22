@@ -20,7 +20,23 @@ namespace AppBurse.Controllers
 		public ActionResult Show(int id)
 		{
 			Cerere cerere = db.Cereri.Find(id);
+			cerere.User = db.Users.Find(cerere.UserId);
+			Bursa bursa = db.Burse.Find(cerere.IdBursaCeruta);
+			if (cerere.User != null)
+				ViewBag.Student = cerere.User.UserName;
+			else
+				ViewBag.Student = "Fara nume";
+			ViewBag.Bursa = bursa;
+			ViewBag.existaDocument = true;
+			if (cerere.Document == null)
+				ViewBag.existaDocument = false;
 			return View(cerere);
+		}
+
+		public FileResult Download(int id)
+		{
+			Cerere cerere = db.Cereri.Find(id);
+			return File(cerere.Document, "application/pdf");
 		}
 
 		public ActionResult New()
@@ -62,6 +78,51 @@ namespace AppBurse.Controllers
 			{
 				return View(model);
 			}
+		}
+
+		public ActionResult Edit(int id)
+		{
+			Cerere cerere = db.Cereri.Find(id);
+			
+			var model = new CerereViewModel()
+			{
+				Formular = cerere,
+				Document = null
+			};
+			model.Formular.Burse = GetToateBursele();
+			model.Formular.UserId = User.Identity.GetUserId();
+			return View(model);
+		}
+
+		[HttpPost]
+		public ActionResult Edit(CerereViewModel model)
+		{
+			try
+			{
+				Cerere cerere = db.Cereri.Find(model.Formular.CerereId);
+				
+				cerere.Specializare = model.Formular.Specializare;
+				cerere.An = model.Formular.An;
+				cerere.Grupa = model.Formular.Grupa;
+				cerere.Medie = model.Formular.Medie;
+				cerere.NrCredite = model.Formular.NrCredite;
+				cerere.CNP = model.Formular.CNP;
+				cerere.SerieCI = model.Formular.SerieCI;
+				cerere.NumarCI = model.Formular.NumarCI;
+				cerere.IdBursaCeruta = model.Formular.IdBursaCeruta;
+				if (model.Document != null)
+				{
+					var uploadedFile = new byte[model.Document.InputStream.Length];
+					model.Document.InputStream.Read(uploadedFile, 0, uploadedFile.Length);
+					cerere.Document = uploadedFile;
+				}
+				db.SaveChanges();
+			}
+			catch (Exception e)
+			{
+				return RedirectToAction("Index");
+			}
+			return RedirectToAction("Index");
 		}
 
 		[NonAction]
