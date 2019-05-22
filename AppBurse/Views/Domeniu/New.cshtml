@@ -1,0 +1,72 @@
+﻿@model AppBurse.Models.New_specializare_and_new_Domenii
+
+@{
+    ViewBag.Title = "New";
+}
+
+<h2>Domenii</h2>
+<br />
+
+@using (Html.BeginForm("New", "Domeniu", FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Dom.Denumire, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Dom.Denumire, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Dom.Denumire, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Numar ani de studiu", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Dom.NrAniStudiu, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Dom.NrAniStudiu, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Program de studiu", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.Dom.Program_de_studiuId, new
+                    SelectList(Model.Dom.Programe, "Value", "Text"),"Selectati",
+                    new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Dom.Program_de_studiuId, "", new { @class = "text-danger" })
+             </div>
+         </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-success" />
+                    </div>
+                </div>
+            </div>
+}
+
+<br />
+
+<h4>Domenii actuale:</h4>
+@foreach (var item in Model.AllDomenii)
+{
+    <pre> Program de studiu: <strong>@Html.DisplayFor(modelItem=>item.Program_de_studiu.Denumire)</strong>
+   Domeniu: <strong>@Html.DisplayFor(modelItem=>item.Denumire)</strong>
+      Ani de studiu:  <strong>@Html.DisplayFor(modelItem=>item.NrAniStudiu)</strong>
+        <input type="button" class="btn btn-success" value="Specializari" onclick="location.href='@Url.Action("New", "Specializare", new {  id = item.SpecializareId })'" />
+        <input type="button" class="btn btn-danger" value="Sterge Domeniu" onclick="location.href='@Url.Action("Delete", "Domeniu", new {  id = item.SpecializareId })'" />
+      
+</pre>
+
+    <br />
+}
+
+
+
+<div>
+    <input type="button" class="btn btn-info" value="Inapoi" onclick="location.href='@Url.Action("New","Program_de_studiu")'" />
+    <input type="button" class="btn btn-info" value="Finalizati" onclick="location.href='@Url.Action("CompleteSpecializari", "Specializare")'" />
+</div>

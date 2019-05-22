@@ -1,0 +1,264 @@
+﻿@using AppBurse.Models;
+@model List<Student>
+@{
+    ViewBag.Title = "Vizualizare studenti";
+}
+
+<style type="text/css">
+
+
+    #cent {
+        border-color: black;
+    }
+    td{
+        height:50px;
+    }
+
+     th{
+        height:35px;
+    }
+
+    table.blueTable {
+  background-color: #EEEEEE;
+  width: 80%;
+  text-align: center;
+        margin-left: 10%;
+        margin-right: 10%;
+}
+table.blueTable td, table.blueTable th {
+  border: 1px solid #AAAAAA;
+  padding: 3px 2px;
+}
+table.blueTable tr:nth-child(even) {
+  background: #D0E4F5;
+}
+table.blueTable thead {
+  background: #1C6EA4;
+  background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  border-bottom: 2px solid #444444;
+}
+table.blueTable thead th {
+  font-weight: bold;
+  text-align: center;
+  border-left: 2px solid #D0E4F5;
+}
+table.blueTable thead th:first-child {
+  border-left: none;
+}
+
+table.blueTable tfoot td {
+  font-size: 14px;
+}
+
+
+tr { cursor: pointer; }
+thead tr{cursor:default;}
+
+
+tr:hover td {
+    -moz-box-shadow: 0 4px 2px -3px rgba(0, 0, 0, 0.5) inset;
+    -webkit-box-shadow: 0 4px 2px -3px rgba(0, 0, 0, 0.5) inset;
+    box-shadow: 0 4px 2px -3px rgba(0, 0, 0, 0.5) inset;
+}
+tr:hover td:first-child {
+    -moz-box-shadow: 4px 4px 2px -3px rgba(0, 0, 0, 0.5) inset;
+    -webkit-box-shadow: 4px 4px 2px -3px rgba(0, 0, 0, 0.5) inset;
+    box-shadow: 4px 4px 2px -3px rgba(0, 0, 0, 0.5) inset;
+}
+tr:hover td:last-child {
+    -moz-box-shadow: 0 4px 2px -3px rgba(0, 0, 0, 0.5) inset;
+    -webkit-box-shadow: 0 4px 2px -3px rgba(0, 0, 0, 0.5) inset;
+    box-shadow: 0 4px 2px -3px rgba(0, 0, 0, 0.5) inset;
+}
+
+tr#integralist{
+    color:red;
+}
+
+#label1{
+       font-weight: normal !important;
+}
+
+  #textbox1{
+        color: darkred;
+        font-weight: normal !important;
+    }
+
+
+</style>
+
+@if (TempData.ContainsKey("messageIndex"))
+{
+    <h4 class="alert alert-info" role="alert">@ViewBag.message</h4>
+}
+
+@using (Html.BeginForm("IndexSort", "Student"))
+{
+<h4>Bifati in functiile de criteriile de sortare pe care doriti sa le aplicati:
+    <span input id="incerc" type="button"
+          onmouseover="javascript: document.getElementById('textbox1').textContent = 'Neselectarea niciunei optiuni duce la sortarea implicita!'"         
+          onmouseout="javascript: document.getElementById('textbox1').textContent=''" 
+          class="glyphicon glyphicon-info-sign input-sm" data-title="Please enter a title." data-html="true" data-placement="right"></span>
+    <label type="text" id="textbox1" name="textbox1"/>
+     </h4>
+
+<div>
+    <ol>
+        <li>
+            @Html.Label("Program de studii")
+        <input id="Responsable" name="ProgramStudii" type="checkbox" value="true" />
+        </li>
+        
+        <li>
+            @Html.Label("Domeniu")
+        <input id="Responsable" name="Domeniu" type="checkbox" value="true" />
+    </li>
+        <li>
+            @Html.Label("An de studiu")
+            <input id="Responsable" name="An" type="checkbox" value="true" />
+        </li>
+    </ol> </div>
+
+<div>
+    <input type="submit" value="Sorteaza" class="btn btn-info" />
+</div>
+}
+<br />
+
+<table border="1" class="blueTable">
+    <thead>
+        <tr>
+            <th id="cent">Nr crt</th>
+            <th id="cent">Nume</th>
+            <th id="cent">Prenume</th>
+            <th id="cent">CNP</th>
+            <th id="cent">Medie</th>
+            <th id="cent">Program de studiu</th>
+            <th id="cent">An studiu</th>
+            <th id="cent">Domeniu</th>
+            <th id="cent">Specializare</th>
+            <th id="cent">Nr crt'</th>
+        </tr>
+    </thead>
+
+    @{int i = 0; int id = 0;
+        if (Model.First()!=Model.Last())
+        {
+            switch ((Model.Last().Integralist))
+            {
+                case 10:
+                    id = Model.First().SubramuraSpecializareId;
+                    break;
+                case 11:
+                    id = Model.First().SpecializareStudent.AnStudiu;
+                    break;
+                case 12:
+                    id = Model.First().SpecializareStudent.Domeniu.Program_de_studiuId;
+                    break;
+                case 13:
+                    id = Model.First().SpecializareStudent.SpecializareId;
+                    break;
+                case 14:
+                    id = Model.First().SpecializareStudent.AnStudiu;
+                    break;
+                default:
+                    Console.WriteLine("Default case");
+                    break;
+            }
+
+
+        }
+        int ii = 0;}
+    @foreach (var stud in (List<Student>)Model)
+    {
+        if (stud != Model.Last())
+        {
+            switch ((Model.Last().Integralist))
+            {
+                case 10:
+                    if (stud.SubramuraSpecializareId != id)
+                    {
+                        i = 0;
+                        id = stud.SubramuraSpecializareId;
+                        <tr><td></td></tr>
+                    }
+                    break;
+                case 11:
+                    if (stud.SpecializareStudent.AnStudiu != id)
+                    {
+                        i = 0;
+                        id = stud.SpecializareStudent.AnStudiu;
+                        <tr><td></td></tr>
+                    }
+                    break;
+                case 12:
+                    if (stud.SpecializareStudent.Domeniu.Program_de_studiuId != id)
+                    {
+                        i = 0;
+                        id = stud.SpecializareStudent.Domeniu.Program_de_studiuId;
+                        <tr><td></td></tr>
+                    }
+                    break;
+                case 13:
+                    if (stud.SpecializareStudent.SpecializareId != id)
+                    {
+                        i = 0;
+                        id = stud.SpecializareStudent.SpecializareId;
+                        <tr><td></td></tr>
+                    }
+                    break;
+                case 14:
+                    if (stud.SpecializareStudent.AnStudiu!= id)
+                    {
+                        i = 0;
+                        id = stud.SpecializareStudent.AnStudiu;
+                        <tr><td></td></tr>
+                    }
+                    break;
+                default:
+                    Console.WriteLine("Default case");
+                    break;
+            }
+
+            i++;
+            ii++;
+            if (stud.Integralist == 2)
+            {
+             <tr id="integralist" title="Studentul nu este integralist" onclick="location.href = '@(Url.Action("Edit", "Student", new { StudentId = stud.StudentId }))'">
+            
+            <td>@ii</td>
+            <td>@stud.Nume</td>
+            <td>@stud.Prenume</td>
+            <td>@stud.CNP</td>
+            <td>@stud.MedieAnAnterior_Admitere</td>
+            <td>@stud.SpecializareStudent.Domeniu.Program_de_studiu.Denumire</td>
+            <td>@stud.SpecializareStudent.AnStudiu</td>
+            <td>@stud.SpecializareStudent.Domeniu.Denumire</td>
+            <td>@stud.SpecializareStudent.Subramura</td>
+            <td>@i</td>
+        </tr>
+            }
+            else
+            {
+            <tr onclick="location.href = '@(Url.Action("Edit", "Student", new { StudentId = stud.StudentId }))'">
+
+                <td>@ii</td>
+                <td>@stud.Nume</td>
+                <td>@stud.Prenume</td>
+                <td>@stud.CNP</td>
+                <td>@stud.MedieAnAnterior_Admitere</td>
+                <td>@stud.SpecializareStudent.Domeniu.Program_de_studiu.Denumire</td>
+                <td>@stud.SpecializareStudent.AnStudiu</td>
+                <td>@stud.SpecializareStudent.Domeniu.Denumire</td>
+                <td>@stud.SpecializareStudent.Subramura</td>
+                <td>@i</td>
+            </tr>
+            }
+        }
+    }
+</table>
+
+
+

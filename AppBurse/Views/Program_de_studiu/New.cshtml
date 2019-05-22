@@ -1,0 +1,47 @@
+﻿@model AppBurse.Models.New_program_and_all_programs
+
+@{
+    ViewBag.Title = "New";
+}
+@if (TempData.ContainsKey("message"))
+{
+    <h4 class="alert alert-info" role="alert">@ViewBag.message</h4>
+}
+<h2>Programe de studii</h2>
+<br />
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Program_studiu.Denumire, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Program_studiu.Denumire, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Program_studiu.Denumire, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+<br />
+
+<h4>Programe de studii actuale:</h4>
+@foreach (var item in Model.Programe_de_studiu)
+{
+   <pre> <strong>@Html.DisplayFor(modelItem=>item.Denumire)</strong>
+       <input type="button" class="btn btn-danger" value="Sterge Program" onclick="location.href='@Url.Action("Delete", "Program_de_studiu", new { id = item.Program_de_studiuId })'" />
+</pre>   
+ <br />
+}
+
+<input type="button" class="btn btn-info" value="Urmatorul" onclick="location.href='@Url.Action("New", "Domeniu")'" />
+

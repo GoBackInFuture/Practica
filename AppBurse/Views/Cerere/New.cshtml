@@ -1,0 +1,111 @@
+﻿@model AppBurse.Models.CerereViewModel
+
+@{
+    ViewBag.Title = "Cerere noua";
+}
+
+@using (Html.BeginForm("New", "Cerere", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="form-group col-xs-5 col-lg-5">
+            @Html.LabelFor(model => model.Formular.Domeniu)
+            <span class="glyphicon glyphicon-info-sign input-sm" data-title="Va rugam sa introduceti Domeniua dumneavoastra."
+                  data-html="true" data-placement="right"></span>
+            @Html.TextBoxFor(model => model.Formular.Domeniu, new { @class = "form-control focus" })
+            @Html.ValidationMessageFor(m => m.Formular.Domeniu, "Domeniua este obligatorie", new
+       {
+           @class = "text-danger "
+       })
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-5 col-lg-5">
+            @Html.LabelFor(model => model.Formular.An)
+            <span class="glyphicon glyphicon-info-sign input-sm" data-title="Va rugam sa introduceti anul in care studiati."
+                  data-html="true" data-placement="right"></span>
+            @Html.TextBoxFor(model => model.Formular.An, new { @class = "form-control focus" })
+            @Html.ValidationMessageFor(model => model.Formular.An)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-5 col-lg-5">
+            @Html.LabelFor(model => model.Formular.Grupa)
+            <span class="glyphicon glyphicon-info-sign input-sm" data-title="Please enter a title." data-html="true" data-placement="right"></span>
+            @Html.TextBoxFor(model => model.Formular.Grupa, new { @class = "form-control focus" })
+            @Html.ValidationMessageFor(model => model.Formular.Grupa)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-5 col-lg-5">
+            @Html.LabelFor(model => model.Formular.Medie)
+            <span class="glyphicon glyphicon-info-sign input-sm" data-title="Please enter a title." data-html="true" data-placement="right"></span>
+            @Html.TextBoxFor(model => model.Formular.Medie, new { @class = "form-control focus" })
+            @Html.ValidationMessageFor(model => model.Formular.Medie)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-5 col-lg-5">
+            @Html.LabelFor(model => model.Formular.NrCredite)
+            <span class="glyphicon glyphicon-info-sign input-sm" data-title="Please enter a title." data-html="true" data-placement="right"></span>
+            @Html.TextBoxFor(model => model.Formular.NrCredite, new { @class = "form-control focus" })
+            @Html.ValidationMessageFor(model => model.Formular.NrCredite)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-5 col-lg-5">
+            @Html.LabelFor(model => model.Formular.CNP)
+            <span class="glyphicon glyphicon-info-sign input-sm" data-title="Please enter a title." data-html="true" data-placement="right"></span>
+            @Html.TextBoxFor(model => model.Formular.CNP, new { @class = "form-control focus" })
+            @Html.ValidationMessageFor(model => model.Formular.CNP)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-5 col-lg-5">
+            @Html.LabelFor(model => model.Formular.SerieCI)
+            <span class="glyphicon glyphicon-info-sign input-sm" data-title="Please enter a title." data-html="true" data-placement="right"></span>
+            @Html.TextBoxFor(model => model.Formular.SerieCI, new { @class = "form-control focus" })
+            @Html.ValidationMessageFor(model => model.Formular.SerieCI)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-5 col-lg-5">
+            @Html.LabelFor(model => model.Formular.NumarCI)
+            <span class="glyphicon glyphicon-info-sign input-sm" data-title="Please enter a title." data-html="true" data-placement="right"></span>
+            @Html.TextBoxFor(model => model.Formular.NumarCI, new { @class = "form-control focus" })
+            @Html.ValidationMessageFor(model => model.Formular.NumarCI)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-5 col-lg-2">
+            @Html.LabelFor(model => model.Document, "Document:")
+            <span class="glyphicon glyphicon-info-sign input-sm" data-title="Select the type of media to upload." data-html="true" data-placement="right"></span>
+            @Html.TextBoxFor(model => model.Document, new { @type = "file", @class = "form-control input-sm" })
+        </div>
+        @Html.ValidationMessageFor(model => model.Document)
+    </div>
+
+    @Html.DropDownListFor(m => m.Formular.IdBursaCeruta, new
+ SelectList(Model.Formular.Burse, "Value", "Text"), "Selectati bursa",
+ new { @class = "form-control" })
+
+
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <div class="form-group col-md-10">
+        <p class="text-center">
+            <input type="submit" value="Trimite cererea" />
+        </p>
+    </div>
+}
+

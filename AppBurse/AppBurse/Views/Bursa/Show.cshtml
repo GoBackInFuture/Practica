@@ -1,0 +1,31 @@
+﻿@model AppBurse.Models.Bursa
+
+@{
+    ViewBag.Titlu = "Afisare bursa";
+}
+
+<h2>@ViewBag.Titlu</h2>
+
+<br />
+
+@Html.Partial("ShowPartial")
+
+@if (ViewBag.afisareButoane == true || ViewBag.esteAdmin)
+{
+    <a class="btn btn-sm btn-info" href="/Bursa/Edit/@Model.BursaId">
+        Modifica bursa
+    </a>
+    <br />
+
+    <form method="post" action="/Bursa/Delete/@Model.BursaId">
+        @Html.HttpMethodOverride(HttpVerbs.Delete)
+        <button class="btn btn-sm btn-danger" type="submit">Sterge bursa</button>
+    </form>
+}
+
+<hr />
+<a class="btn btn-sm btn-success" href="/Bursa/Index">Inapoi la burse</a>
+<a class="btn btn-sm btn-success" href="/Bursa/New">Adauga burse</a>
+
+<br />
+

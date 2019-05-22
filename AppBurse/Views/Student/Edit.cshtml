@@ -1,0 +1,131 @@
+﻿@model AppBurse.Models.Student
+
+@{
+    ViewBag.Title = "Editeaza student";
+}
+@{ List<SelectListItem> listItems = new List<SelectListItem>();
+
+    listItems.Add(new SelectListItem
+    {
+        Text = "Da",
+        Value = "1"
+    });
+    listItems.Add(new SelectListItem
+    {
+        Text = "Nu",
+        Value = "2"
+    });
+
+}
+
+@if (TempData.ContainsKey("message"))
+{
+    <h4 class="alert alert-info" role="alert">@ViewBag.message</h4>
+}
+
+@if (TempData.ContainsKey("message1"))
+{
+    <h4 class="alert alert-danger" role="alert">@ViewBag.message</h4>
+}
+
+<style>
+    #incerc {
+        display: inline;
+    }
+
+    #textbox {
+        color: darkred;
+        display: block;
+        font-weight: normal !important;
+    }
+
+    #textbox1 {
+        color: darkred;
+        display: block;
+        font-weight: normal !important;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.StudentId)
+    <div class="form-horizontal">
+        <h4>Student nou</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nume, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nume, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nume, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Prenume, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Prenume, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Prenume, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CNP, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CNP, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CNP, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MedieAnAnterior_Admitere, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MedieAnAnterior_Admitere, new { htmlAttributes = new { min = 1, max = 10, @id = "incerc", @class = "form-control" } })
+                <span input id="incerc" type="button"
+                      onmouseover="javascript: document.getElementById('textbox1').textContent = 'Exemplu format: 6,44'"
+                      onmouseout="javascript: document.getElementById('textbox1').textContent = ''"
+                      class="glyphicon glyphicon-info-sign input-sm" data-title="Please enter a title." data-html="true" data-placement="right"></span>
+
+                <label type="text" id="textbox1" name="textbox1" />
+                @Html.ValidationMessageFor(model => model.MedieAnAnterior_Admitere, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Integralist, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.Integralist, listItems,
+                    new { @id = "incerc", @class = "form-control" })
+                <span input id="incerc" type="button"
+                      onmouseover="javascript: document.getElementById('textbox').textContent = 'Studentii din primul an sunt integralisti!'"
+                      onmouseout="javascript: document.getElementById('textbox').textContent = ''"
+                      class="glyphicon glyphicon-info-sign input-sm" data-title="Please enter a title." data-html="true" data-placement="right"></span>
+
+                <label type="text" id="textbox" name="textbox" />
+                @Html.ValidationMessageFor(model => model.Integralist, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Specializare", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.SubramuraSpecializareId, new
+                    SelectList(Model.AllDomenii, "Value", "Text"), "Selectati",
+                    new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.SubramuraSpecializareId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Edit" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <input type="button" class="btn btn-info" value="Vizualizare studenti" onclick="location.href='@Url.Action("Index", "Student")'" />
+</div>

@@ -1,0 +1,28 @@
+﻿@model AppBurse.Models.Bursa
+@{
+    ViewBag.Titlu = "Creare bursa";
+}
+
+<h2>@ViewBag.Titlu</h2>
+<form method="post" action="/Bursa/New">
+    @Html.HiddenFor(m => m.BursaId)
+
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.Label("Nume", "Nume bursa")
+    <br />
+    @Html.TextBox("Nume", null, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Nume, "Numele este obligatoriu", new { @class = "text-danger " })
+    <br /><br />
+    @Html.Label("Cuantum", "Cuantum Bursa")
+    <br />
+    @Html.TextArea("Cuantum", null, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Cuantum, "Cuantumul este obligatoriu", new { @class = "text-danger " })
+    <br /><br />
+    @Html.Label("MedieMinima", "Medie minima")
+    <br />
+    @Html.TextArea("MedieMinima", null, new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.Cuantum, null, new { @class = "text-danger " })
+    <br />
+    <button class="btn btn-sm btn-success" type="submit">Adauga bursa</button>
+</form>
+

@@ -1,0 +1,27 @@
+﻿@model AppBurse.Models.Bursa
+
+@{
+    ViewBag.Titlu = "Editare Bursa";
+}
+
+<h2>@ViewBag.Titlu</h2>
+<form method="post" action="/Bursa/Edit/@Model.BursaId">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.HiddenFor(m => m.BursaId)
+    <br />
+    @Html.Label("Nume", "Nume bursa")
+    <br />
+    @Html.EditorFor(m => m.Nume)
+    @Html.ValidationMessageFor(model => model.Nume, "Numele este obligatoriu", new { @class = "text-danger " })
+    <br /><br />
+    @Html.Label("Cuantum", "Cuantum bursa")
+    <br />
+    @Html.EditorFor(m => m.Cuantum)
+    @Html.ValidationMessageFor(model => model.Cuantum, "Cuantumul este obligatoriu", new { @class = "text-danger " })
+    <br />
+    @Html.EditorFor(m => m.MedieMinima)
+    <br />
+    <button class="btn btn-sm btn-success" type="submit">Modifica bursa</button>
+</form>
+

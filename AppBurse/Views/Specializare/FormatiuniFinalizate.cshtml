@@ -1,0 +1,31 @@
+﻿@model AppBurse.Models.FormatiuniFinalizate
+
+@{
+    ViewBag.Title = "FormatiuniFinalizate";
+}
+
+@if (!Model.AllPrograme.Any())
+{
+    <h3 class="alert alert-info" role="alert">Nu au fost introduse date!</h3>
+}
+@foreach (var item in Model.AllPrograme)
+{
+    <pre> <strong>@Html.DisplayFor(modelItem=>item.Denumire)</strong>
+        @foreach(var spec in Model.AllDomenii.Where(m=>m.Program_de_studiuId==item.Program_de_studiuId))
+        {
+    <strong>⚫@Html.DisplayFor(modelItem=>spec.Denumire)</strong>
+            for(int i = 1; i <= spec.NrAniStudiu; i++)
+            {
+                @:An  @i
+                    foreach(var rspec in Model.AllSpecializariSpec.Where(m=>m.SpecializareId==spec.SpecializareId && m.AnStudiu == i))
+                {
+                        <strong>@Html.DisplayFor(modelItem=>rspec.Subramura)</strong>
+                }
+            }
+        }
+       
+</pre>
+    <br />
+}
+
+<input type="button" class="btn btn-info" value="Editeaza" onclick="location.href='@Url.Action("New","Program_de_studiu")'" />
