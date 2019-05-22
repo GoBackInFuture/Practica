@@ -1,0 +1,60 @@
+﻿@model AppBurse.Models.CerereViewModel
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Editeaza cererea</h2>
+
+@using (Html.BeginForm("Edit", "Cerere", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+{
+    <div>
+        <div>
+            @Html.LabelFor(x => x.Formular.Specializare)
+            @Html.TextBoxFor(x => x.Formular.Specializare)
+        </div>
+        <div>
+            @Html.LabelFor(x => x.Formular.An)
+            @Html.EditorFor(x => x.Formular.An)
+        </div>
+        <div>
+            @Html.LabelFor(x => x.Formular.Grupa)
+            @Html.EditorFor(x => x.Formular.Grupa)
+        </div>
+        <div>
+            @Html.LabelFor(x => x.Formular.Medie)
+            @Html.EditorFor(x => x.Formular.Medie)
+        </div>
+        <div>
+            @Html.LabelFor(x => x.Formular.NrCredite)
+            @Html.EditorFor(x => x.Formular.NrCredite)
+        </div>
+        <div>
+            @Html.LabelFor(x => x.Formular.CNP)
+            @Html.EditorFor(x => x.Formular.CNP)
+        </div>
+        <div>
+            @Html.LabelFor(x => x.Formular.SerieCI)
+            @Html.EditorFor(x => x.Formular.SerieCI)
+        </div>
+        <div>
+            @Html.LabelFor(x => x.Formular.NumarCI)
+            @Html.EditorFor(x => x.Formular.NumarCI)
+        </div>
+
+        <div>
+            <label>Incarcati alt document: </label>
+            <span class="glyphicon glyphicon-info-sign input-sm" data-title="Select the type of media to upload." data-html="true" data-placement="right"></span>
+            @Html.TextBoxFor(model => model.Document, new { type = "file", name = "Document" })
+        </div>
+
+        @Html.DropDownListFor(m => m.Formular.IdBursaCeruta, new
+     SelectList(Model.Formular.Burse, "Value", "Text"), "Selectati bursa",
+     new { @class = "form-control" })
+
+
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(x => x.Formular.CerereId)
+        <input type="submit" value="Edit" />
+    </div>
+}

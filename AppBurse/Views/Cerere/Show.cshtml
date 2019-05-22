@@ -1,0 +1,62 @@
+﻿@model AppBurse.Models.Cerere
+@{
+    ViewBag.Title = "Show";
+}
+
+<h2>Afisare cerere</h2>
+
+<div>
+    <label>Nume student: </label>
+    @ViewBag.Student
+</div>
+
+<div>
+    <label>Specializare: </label>
+    @Html.DisplayFor(model => model.Specializare)
+</div>
+
+<div>
+    <label>Anul de studiu: </label>
+    @Html.DisplayFor(model => model.An)
+</div>
+
+<div>
+    <label>Grupa: </label>
+    @Html.DisplayFor(model => model.Grupa)
+</div>
+
+<div>
+    <label>Media: </label>
+    @Html.DisplayFor(model => model.Medie)
+</div>
+
+<div>
+    <label>Numarul de credite: </label>
+    @Html.DisplayFor(model => model.NrCredite)
+</div>
+
+<div>
+    <label>CNP: </label>
+    @Html.DisplayFor(model => model.CNP)
+</div>
+
+<div>
+    <label>Seria si numarul CI: </label>
+    @Model.SerieCI @Model.NumarCI
+</div>
+
+<div>
+    <label>Bursa dorita: </label>
+    @ViewBag.Bursa.Nume
+</div>
+
+
+@if (ViewBag.existaDocument)
+{
+    @Html.LabelFor(model => model.Document, "Document: ")
+    @Html.ActionLink(" Apasa aici pentru vizionarea documentului", "Download", new { @id = Model.CerereId })
+}
+else
+{
+    <div>Nu exista document incarcat.</div>
+}

@@ -11,11 +11,11 @@
     @Html.AntiForgeryToken()
     <div class="row">
         <div class="form-group col-xs-5 col-lg-5">
-            @Html.LabelFor(model => model.Formular.Domeniu)
-            <span class="glyphicon glyphicon-info-sign input-sm" data-title="Va rugam sa introduceti Domeniua dumneavoastra."
+            @Html.LabelFor(model => model.Formular.Specializare)
+            <span class="glyphicon glyphicon-info-sign input-sm" data-title="Va rugam sa introduceti specializarea dumneavoastra."
                   data-html="true" data-placement="right"></span>
-            @Html.TextBoxFor(model => model.Formular.Domeniu, new { @class = "form-control focus" })
-            @Html.ValidationMessageFor(m => m.Formular.Domeniu, "Domeniua este obligatorie", new
+            @Html.TextBoxFor(model => model.Formular.Specializare, new { @class = "form-control focus" })
+            @Html.ValidationMessageFor(m => m.Formular.Specializare, "Specializarea este obligatorie", new
        {
            @class = "text-danger "
        })
@@ -89,7 +89,7 @@
 
     <div class="row">
         <div class="form-group col-xs-5 col-lg-2">
-            @Html.LabelFor(model => model.Document, "Document:")
+            @Html.LabelFor(model => model.Document, "Document: ")
             <span class="glyphicon glyphicon-info-sign input-sm" data-title="Select the type of media to upload." data-html="true" data-placement="right"></span>
             @Html.TextBoxFor(model => model.Document, new { @type = "file", @class = "form-control input-sm" })
         </div>
