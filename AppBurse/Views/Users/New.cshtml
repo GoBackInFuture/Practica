@@ -1,0 +1,42 @@
+﻿@model AppBurse.Models.Model_For_New_Account
+
+@{
+    ViewBag.Title = "Editare rol utilizator";
+}
+
+<ol class="breadcrumb">
+    <li><h3>@ViewBag.Title</h3></li>
+</ol>
+
+<form method="post" action="/Users/New">
+    @Html.HttpMethodOverride(HttpVerbs.Put)
+    <br />
+    <i class="glyphicon glyphicon-user"></i>
+    @Html.Label("Email", "Nume utilizator", new { @class = "" })
+    <br />
+    @Html.EditorFor(m => m.user_to_register.Email)
+    <br /><br />
+    <br />
+    <i class="glyphicon glyphicon-lock"></i>
+    @Html.Label("Password", "Parola", new { @class = "" })
+    <br />
+    @Html.PasswordFor(m => m.user_to_register.Password)
+    <br /><br />
+    <br />
+    <i class="glyphicon glyphicon-lock"></i>
+    @Html.Label("ConfirmPassword", "Confirma parola", new { @class = "" })
+    <br />
+    @Html.PasswordFor(m => m.user_to_register.ConfirmPassword)
+    <br /><br />
+
+    <i class="glyphicon glyphicon-th-list"></i>
+    <label>Selectati rolul</label>
+    @Html.DropDownList("newRole", new SelectList(Model.AllRoles, "Value", "Text", (string)ViewBag.userRole), null, new { @class = "form-control" })
+    <br />
+
+    <a class="btn btn-sm btn-info" href="/Users/Index">Inapoi</a>   <button class="btn btn-sm btn-success" type="submit">Adauga utilizator</button>
+</form>
+
+
+
+

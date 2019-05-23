@@ -8,23 +8,43 @@
     <li><h3>@ViewBag.Title</h3></li>
 </ol>
 
-@foreach (var user in ViewBag.UsersList)
-{
-    <div class="panel-heading">Nume utilizator: @user.UserName</div>
-    <div class="panel-body">
-        <i class="glyphicon glyphicon-envelope"></i> Email utilizator: <span class="label label-default">@user.Email</span>
-        <br /><br />
+<a class="btn btn-sm btn-info" href="/Users/New">Adauga utilizator</a>
 
-        @if (@user.PhoneNumber != null)
-        {
-            <i class="glyphicon glyphicon-phone"></i>@:Telefon utilizator:<span class="label label-default">@user.PhoneNumber</span>
-        }
-    </div>
-    <div class="panel-footer">
-        <a class="btn btn-sm btn-success" href="/Users/Edit/@user.Id">Afisare utilizator</a>
-    </div>
-    <br /><br />
-}
+<br /><br /><br />
+<h4><strong>Administratori</strong></h4>
+<div class="form-horizontal" style="padding-left:6%">
+    @foreach (var user in ViewBag.UsersList)
+    {
+        <div class="panel-body">
+            <i class="glyphicon glyphicon-user"></i> Nume utilizator: <span class="label label-default">@user.UserName</span>
+            <br /><br />
+
+        </div>
+        <div class="panel-footer">
+            <a class="btn btn-sm btn-success" href="/Users/Edit/@user.Id">Editare rol</a>   <input type="button" class="btn btn-danger" value="Sterge utilizator" onclick="location.href='@Url.Action("Delete", "Users", new {  id = user.Id })'" />
+
+        </div>
+        <br /><br />
+    }
+</div>
+<br />
+<h4><strong>Secretari</strong></h4>
+<div class="form-horizontal" style="padding-left:6%">
+    @foreach (var user in ViewBag.UsersList1)
+    {
+        <div class="panel-body">
+            <i class="glyphicon glyphicon-user"></i> Nume utilizator: <span class="label label-default">@user.UserName</span>
+            <br /><br />
+
+
+        </div>
+        <div class="panel-footer">
+            <a class="btn btn-sm btn-success" href="/Users/Edit/@user.Id">Editare rol</a>   <a class="btn btn-sm btn-danger" href="/Users/Delete/@user.Id">Sterge utilizator</a>
+        </div>
+        <br /><br />
+    }
+</div>
+
 
 
 
