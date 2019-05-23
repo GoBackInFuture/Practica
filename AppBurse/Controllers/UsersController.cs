@@ -13,24 +13,42 @@ namespace proict.Controllers
 	public class UsersController : Controller
 	{
 		private ApplicationDbContext db = ApplicationDbContext.Create();
-		// GET: Users
-		public ActionResult Index()
+
+        public ActionResult Index()
 		{
-			var users = from user in db.Users
-						orderby user.UserName
-						select user;
-			ViewBag.UsersList = users;
+            var users=from user in db.Users
+                      where 1==0
+                      select user;
+            var users1 = from user in db.Users
+                        where 1 == 0
+                        select user;
+            List<IdentityRole> roles1 = db.Roles.Where(r => r.Name == "Secretar").ToList();
+            List<IdentityRole>  roles = db.Roles.Where(r => r.Name == "Administrator").ToList();
+            if (roles.Any())
+            {
+                var roleId = roles.First().Id;
+                users= from user in db.Users
+                       where user.Roles.Any(r => r.RoleId == roleId)
+                       select user;
+            }
+
+            if (roles1.Any())
+            {
+                var roleId1 = roles1.First().Id;
+                users1 = from user in db.Users
+                        where user.Roles.Any(r => r.RoleId == roleId1)
+                        select user;
+            }
+            /* var users = from user in db.Users
+                         orderby user.UserName
+                         select user;*/
+            
+            ViewBag.UsersList = users;
+                ViewBag.UsersList1 = users1;
 			return View();
 		}
 
-		public ActionResult Edit(string id)
-		{
-			ApplicationUser user = db.Users.Find(id);
-			user.AllRoles = GetAllRoles();
-			var userRole = user.Roles.FirstOrDefault();
-			ViewBag.userRole = userRole.RoleId;
-			return View(user);
-		}
+		
 		[NonAction]
 		public IEnumerable<SelectListItem> GetAllRoles()
 		{
@@ -38,15 +56,47 @@ namespace proict.Controllers
 			var roles = from role in db.Roles select role;
 			foreach (var role in roles)
 			{
-				selectList.Add(new SelectListItem
-				{
-					Value = role.Id.ToString(),
-					Text = role.Name.ToString()
-				});
+                if (role.Name != "User")
+                {
+                    selectList.Add(new SelectListItem
+                    {
+                        Value = role.Id.ToString(),
+                        Text = role.Name.ToString()
+                    });
+                }
 			}
 			return selectList;
 		}
-		[HttpPut]
+
+        [NonAction]
+        public IEnumerable<SelectListItem> GetAllRolesForNew()
+        {
+            var selectList = new List<SelectListItem>();
+            var roles = from role in db.Roles select role;
+            foreach (var role in roles)
+            {
+                if (role.Name != "User")
+                {
+                    selectList.Add(new SelectListItem
+                    {
+                        Value = role.Name.ToString(),
+                        Text = role.Name.ToString()
+                    });
+                }
+            }
+            return selectList;
+        }
+
+        public ActionResult Edit(string id)
+        {
+            ApplicationUser user = db.Users.Find(id);
+            user.AllRoles = GetAllRoles();
+            var userRole = user.Roles.FirstOrDefault();
+            ViewBag.userRole = userRole.RoleId;
+            return View(user);
+        }
+
+        [HttpPut]
 		public ActionResult Edit(string id, ApplicationUser newData)
 		{
 
@@ -64,9 +114,6 @@ namespace proict.Controllers
 
 				if (TryUpdateModel(user))
 				{
-					user.UserName = newData.UserName;
-					user.Email = newData.Email;
-					user.PhoneNumber = newData.PhoneNumber;
 					var roles = from role in db.Roles select role;
 					foreach (var role in roles)
 					{
@@ -86,6 +133,59 @@ namespace proict.Controllers
 			}
 
 		}
+        public ActionResult New()
+        {
+            Model_For_New_Account user = new Model_For_New_Account();
+            user.AllRoles = GetAllRolesForNew();
+            return View(user);
+        }
 
-	}
+        [HttpPut]
+        public ActionResult New(Model_For_New_Account u,string newRole)
+        {
+            ApplicationUser user = new ApplicationUser();
+            u.AllRoles = GetAllRolesForNew();
+            try
+            {
+                   
+                ApplicationDbContext context = new ApplicationDbContext();
+                var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+                // se adauga utilizatorul administrator
+                user.Email = u.user_to_register.Email;
+                user.UserName = u.user_to_register.Email;
+                user.AllRoles = GetAllRoles();
+
+               // return JavaScript("window.open('"+ newRole+"')");
+
+                if (u.user_to_register.Password==u.user_to_register.ConfirmPassword)
+                {
+                    //user.Email = pass;
+                    var adminCreated = UserManager.Create(user,u.user_to_register.Password);
+                    if (adminCreated.Succeeded)
+                    {
+                        UserManager.AddToRole(user.Id,newRole);
+                    }
+                }
+                else return View(u);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                Response.Write(e.Message);
+                return View(u);
+            }
+
+        }
+
+        public ActionResult Delete(string id)
+        {
+            ApplicationUser u = new ApplicationUser();
+            u = db.Users.Find(id);
+            db.Users.Remove(u);
+            db.SaveChanges();
+            return RedirectToAction("Index", "Users");
+        }
+
+    }
 }
