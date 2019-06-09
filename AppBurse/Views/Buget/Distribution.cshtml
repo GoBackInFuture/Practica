@@ -1,0 +1,50 @@
+﻿@model AppBurse.Models.Buget
+@{
+    ViewBag.Title = "Buget";
+}
+
+@using (Html.BeginForm("Distribution", "Buget", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.BugetId)
+
+    @Html.ValidationSummary(true)
+    @Html.AntiForgeryToken()
+
+
+    <div class="row">
+        <div class="form-group col-xs-5 col-lg-5">
+            @Html.LabelFor(model => model.BugetLunar, "Buget lunar")
+            <span class="glyphicon glyphicon-info-sign input-sm" data-title=""
+                  data-html="true" data-placement="right"></span>
+            @Html.TextBoxFor(model => model.BugetLunar, new { @class = "form-control focus" })
+            @Html.ValidationMessageFor(m => m.BugetLunar, null, new { @class = "text-danger " })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-5 col-lg-5">
+            @Html.LabelFor(model => model.BugetSocial, "Buget cazuri sociale")
+            <span class="glyphicon glyphicon-info-sign input-sm" data-title=""
+                  data-html="true" data-placement="right"></span>
+            @Html.TextBoxFor(model => model.BugetSocial, new { @class = "form-control focus" })
+            @Html.ValidationMessageFor(m => m.BugetSocial, null, new { @class = "text-danger " })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-xs-5 col-lg-5">
+            @Html.LabelFor(model => model.AnScolar, "An scolar")
+            <span class="glyphicon glyphicon-info-sign input-sm" data-title=""
+                  data-html="true" data-placement="right"></span>
+            @Html.TextBoxFor(model => model.AnScolar, new { @class = "form-control focus" })
+            @Html.ValidationMessageFor(m => m.AnScolar, null, new { @class = "text-danger " })
+        </div>
+    </div>
+
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    <div class="form-group col-md-10">
+        <p class="text-center">
+            <input type="submit" value="Go" />
+        </p>
+    </div>
+}

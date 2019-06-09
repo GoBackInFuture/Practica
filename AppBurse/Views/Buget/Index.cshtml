@@ -1,0 +1,41 @@
+﻿@using AppBurse.Models
+@model Dictionary<Specializare_pe_Domeniu, List< Tuple <Student, Bursa> > >
+@{
+    ViewBag.Title = "Repartizare burse";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    @foreach (KeyValuePair<Specializare_pe_Domeniu, List< Tuple <Student, Bursa> > > item in Model)
+    {
+        <div>
+            @item.Key.SubramuraSpecializareId
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nume student</th>
+                        <th>Medie</th>
+                        <th>Bursa</th>
+                    </tr>
+                </thead>
+                @foreach (Tuple <Student, Bursa> tuple in item.Value)
+                {
+                    <tr>
+                        <td>@tuple.Item1.Nume  @tuple.Item1.Prenume</td>
+                        <td>@tuple.Item1.MedieAnAnterior_Admitere</td>
+                        <td>@tuple.Item2.Nume</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+    <div>
+    </div>
+</body>
+</html>
