@@ -14,7 +14,7 @@ namespace AppBurse.Models
 		[Required]
 		public string Nume { get; set; }
 		[Required]
-		public double Cuantum { get; set; }
+		public int Cuantum { get; set; }
 		public double MedieMinima { get; set; }
 	}
 }

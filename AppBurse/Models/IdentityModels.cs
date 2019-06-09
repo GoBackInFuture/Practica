@@ -35,6 +35,8 @@ namespace AppBurse.Models
         public DbSet<Domeniu> Domenii { get; set; }
         public DbSet<Specializare_pe_Domeniu> Specializari { get; set; }
         public DbSet<Student> Studenti { get; set; }
+		public DbSet<StudentBursa> StudentBurse { get; set; }
+		public DbSet<Buget> Bugete { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

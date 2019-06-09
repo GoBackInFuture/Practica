@@ -18,9 +18,14 @@ namespace AppBurse.Models
         [Required(ErrorMessage ="Programul de studiu e obligatoriu")]
         public int Program_de_studiuId { get; set; }
 
+		public Boolean EsteClasSpec { get; set; }
 
         public IEnumerable<SelectListItem> Programe { get; set; }
 
+		public Domeniu()
+		{
+			EsteClasSpec = false;
+		}
 
 
         public virtual Program_de_studiu Program_de_studiu { get; set; }
