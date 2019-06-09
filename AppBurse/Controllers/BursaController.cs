@@ -125,5 +125,6 @@ namespace AppBurse.Controllers
 			TempData["message"] = "Bursa a fost stersa!";
 			return RedirectToAction("Index");
 		}
+
 	}
 }

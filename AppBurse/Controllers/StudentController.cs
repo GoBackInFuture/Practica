@@ -251,7 +251,7 @@ namespace AppBurse.Controllers
 
         [HttpPost]
         // [Authorize(Roles = "Administrator")]
-        public ActionResult Edit(int StudentId,Student stReq)
+        public ActionResult Edit(int StudentId, Student stReq)
         {
             TempData.Remove("message1");
             TempData.Remove("message");
